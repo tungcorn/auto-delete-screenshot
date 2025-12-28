@@ -60,6 +60,21 @@ Right-click the tray icon to:
 
 Only files with `_AUTODEL_` tag are deleted. Your other files are **100% safe**.
 
+## Troubleshooting
+
+### Browser Warning (Download Blocked)
+When downloading, your browser (Chrome/Edge) might block the file because it is not commonly downloaded.
+*   **Chrome:** Click the download icon ➔ "Keep" ➔ "Show more" ➔ "Keep anyway".
+*   **Edge:** Click "..." (More actions) ➔ "Keep" ➔ "Show more" ➔ "Keep anyway".
+
+### Windows SmartScreen Warning
+When you run the app for the first time, you might see a blue window saying **"Windows protected your PC"**.
+This happens because the app is open-source and not digitally signed.
+
+To run it:
+1. Click **"More info"**
+2. Click **"Run anyway"**
+
 ## Build from Source
 
 ```bash
