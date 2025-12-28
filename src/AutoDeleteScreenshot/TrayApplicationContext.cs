@@ -11,6 +11,7 @@ public class TrayApplicationContext : ApplicationContext
     private readonly ContextMenuStrip _contextMenu;
     private readonly ScreenshotWatcher _screenshotWatcher;
     private readonly FileCleanupService _fileCleanupService;
+    private readonly SettingsManager _settingsManager;
     
     // Menu items cho thời gian xóa
     private readonly ToolStripMenuItem _menuNoDelete;
@@ -26,6 +27,11 @@ public class TrayApplicationContext : ApplicationContext
 
     public TrayApplicationContext()
     {
+        // Load settings từ file
+        _settingsManager = new SettingsManager();
+        _deleteAfterMinutes = _settingsManager.DeleteAfterMinutes;
+        _showToast = _settingsManager.ShowToast;
+        
         // Tạo context menu
         _contextMenu = new ContextMenuStrip();
         
@@ -174,7 +180,8 @@ public class TrayApplicationContext : ApplicationContext
             UpdateMenuCheckmarks();
             UpdateTooltip();
             
-            // TODO: Lưu setting và thông báo cho các service khác
+            // Lưu setting
+            _settingsManager.DeleteAfterMinutes = minutes;
         }
     }
 
@@ -184,7 +191,8 @@ public class TrayApplicationContext : ApplicationContext
     private void OnShowToastChanged(object? sender, EventArgs e)
     {
         _showToast = _menuShowToast.Checked;
-        // TODO: Lưu setting
+        // Lưu setting
+        _settingsManager.ShowToast = _showToast;
     }
 
     /// <summary>
