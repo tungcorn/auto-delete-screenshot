@@ -63,7 +63,7 @@ public static class PathHelper
     {
         using var dialog = new FolderBrowserDialog
         {
-            Description = "Chọn thư mục Screenshots cần theo dõi",
+            Description = "Select Screenshots folder to monitor",
             UseDescriptionForTitle = true,
             ShowNewFolderButton = false
         };
