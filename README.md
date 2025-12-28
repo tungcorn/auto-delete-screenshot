@@ -6,6 +6,10 @@ A **super lightweight** (~150KB) and portable Windows utility that keeps your de
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+<p align="center">
+  <img src="assets/demo.png" alt="Auto Delete Screenshot Menu" width="400"/>
+</p>
+
 ## Features
 
 - ⚡ **Super Lightweight** - Only ~150KB. Minimal RAM usage & 0% CPU idle.
