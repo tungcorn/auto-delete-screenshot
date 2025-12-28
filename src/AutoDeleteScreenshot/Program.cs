@@ -25,8 +25,8 @@ static class Program
         if (!createdNew)
         {
             MessageBox.Show(
-                "Auto Delete Screenshot đã đang chạy!",
-                "Thông báo",
+                "Auto Delete Screenshot is already running!",
+                "Info",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );

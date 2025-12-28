@@ -52,12 +52,12 @@ public class TrayApplicationContext : ApplicationContext
         _contextMenu.Items.Add(header);
         _contextMenu.Items.Add(new ToolStripSeparator());
         
-        // Các tùy chọn thời gian
-        _menuNoDelete = new ToolStripMenuItem("Không xóa tự động", null, OnDeleteTimeChanged) { Tag = 0 };
-        _menu15Min = new ToolStripMenuItem("15 phút", null, OnDeleteTimeChanged) { Tag = 15 };
-        _menu30Min = new ToolStripMenuItem("30 phút", null, OnDeleteTimeChanged) { Tag = 30, Checked = true };
-        _menu1Hour = new ToolStripMenuItem("1 giờ", null, OnDeleteTimeChanged) { Tag = 60 };
-        _menu24Hours = new ToolStripMenuItem("24 giờ", null, OnDeleteTimeChanged) { Tag = 1440 };
+        // Time options
+        _menuNoDelete = new ToolStripMenuItem("No auto-delete", null, OnDeleteTimeChanged) { Tag = 0 };
+        _menu15Min = new ToolStripMenuItem("15 minutes", null, OnDeleteTimeChanged) { Tag = 15 };
+        _menu30Min = new ToolStripMenuItem("30 minutes", null, OnDeleteTimeChanged) { Tag = 30, Checked = true };
+        _menu1Hour = new ToolStripMenuItem("1 hour", null, OnDeleteTimeChanged) { Tag = 60 };
+        _menu24Hours = new ToolStripMenuItem("24 hours", null, OnDeleteTimeChanged) { Tag = 1440 };
         
         _contextMenu.Items.Add(_menuNoDelete);
         _contextMenu.Items.Add(_menu15Min);
@@ -67,8 +67,8 @@ public class TrayApplicationContext : ApplicationContext
         
         _contextMenu.Items.Add(new ToolStripSeparator());
         
-        // Tùy chọn Toast
-        _menuShowToast = new ToolStripMenuItem("Hiện thông báo khi chụp", null, OnShowToastChanged)
+        // Toast option
+        _menuShowToast = new ToolStripMenuItem("Show notification on capture", null, OnShowToastChanged)
         {
             CheckOnClick = true,
             Checked = _showToast
@@ -77,12 +77,12 @@ public class TrayApplicationContext : ApplicationContext
         
         _contextMenu.Items.Add(new ToolStripSeparator());
         
-        // Chọn folder Screenshots
-        var folderItem = new ToolStripMenuItem("📂 Chọn thư mục Screenshots...", null, OnSelectFolder);
+        // Select Screenshots folder
+        var folderItem = new ToolStripMenuItem("📂 Select Screenshots folder...", null, OnSelectFolder);
         _contextMenu.Items.Add(folderItem);
         
-        // Khởi động cùng Windows
-        var startupItem = new ToolStripMenuItem("🚀 Khởi động cùng Windows", null, OnStartupChanged)
+        // Run at startup
+        var startupItem = new ToolStripMenuItem("🚀 Run at Windows startup", null, OnStartupChanged)
         {
             CheckOnClick = true,
             Checked = StartupManager.IsEnabled()
@@ -91,15 +91,15 @@ public class TrayApplicationContext : ApplicationContext
         
         _contextMenu.Items.Add(new ToolStripSeparator());
         
-        // Nút thoát
-        var exitItem = new ToolStripMenuItem("❌ Thoát", null, OnExit);
+        // Exit button
+        var exitItem = new ToolStripMenuItem("❌ Exit", null, OnExit);
         _contextMenu.Items.Add(exitItem);
         
         // Tạo tray icon
         _trayIcon = new NotifyIcon
         {
             Icon = LoadIcon(),
-            Text = "Auto Delete Screenshot - 30 phút",
+            Text = "Auto Delete Screenshot - 30 min",
             Visible = true,
             ContextMenuStrip = _contextMenu
         };
@@ -137,18 +137,18 @@ public class TrayApplicationContext : ApplicationContext
         {
             string timeText = _deleteAfterMinutes switch
             {
-                15 => "15 phút",
-                30 => "30 phút",
-                60 => "1 giờ",
-                1440 => "24 giờ",
-                _ => $"{_deleteAfterMinutes} phút"
+                15 => "15 minutes",
+                30 => "30 minutes",
+                60 => "1 hour",
+                1440 => "24 hours",
+                _ => $"{_deleteAfterMinutes} minutes"
             };
             
-            // Hiện balloon tip thay vì toast để đơn giản hơn
+            // Show balloon tip
             _trayIcon.ShowBalloonTip(
                 3000,
                 "📷 Auto Delete Screenshot",
-                $"Ảnh sẽ tự xóa sau {timeText}",
+                $"Screenshot will be deleted in {timeText}",
                 ToolTipIcon.Info
             );
         }
@@ -241,8 +241,8 @@ public class TrayApplicationContext : ApplicationContext
                 {
                     _trayIcon.ShowBalloonTip(
                         2000,
-                        "🚀 Đã bật",
-                        "Ứng dụng sẽ khởi động cùng Windows",
+                        "🚀 Enabled",
+                        "App will start with Windows",
                         ToolTipIcon.Info
                     );
                 }
@@ -254,8 +254,8 @@ public class TrayApplicationContext : ApplicationContext
                 {
                     _trayIcon.ShowBalloonTip(
                         2000,
-                        "🚀 Đã tắt",
-                        "Ứng dụng sẽ không khởi động cùng Windows",
+                        "🚀 Disabled",
+                        "App will not start with Windows",
                         ToolTipIcon.Info
                     );
                 }
@@ -263,10 +263,10 @@ public class TrayApplicationContext : ApplicationContext
 
             if (!success)
             {
-                item.Checked = !item.Checked; // Revert checkbox nếu lỗi
+                item.Checked = !item.Checked; // Revert checkbox on error
                 MessageBox.Show(
-                    "Không thể thay đổi cài đặt khởi động.\nHãy thử chạy ứng dụng với quyền Administrator.",
-                    "Lỗi",
+                    "Cannot change startup settings.\nTry running the app as Administrator.",
+                    "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -275,7 +275,7 @@ public class TrayApplicationContext : ApplicationContext
     }
 
     /// <summary>
-    /// Hiện dialog chọn folder Screenshots
+    /// Show folder selection dialog
     /// </summary>
     private void PromptForScreenshotsFolder()
     {
@@ -287,19 +287,19 @@ public class TrayApplicationContext : ApplicationContext
             
             _trayIcon.ShowBalloonTip(
                 3000,
-                "📂 Đã chọn thư mục",
-                $"Đang theo dõi: {selectedPath}",
+                "📂 Folder Selected",
+                $"Watching: {selectedPath}",
                 ToolTipIcon.Info
             );
             
-            // Restart các services để áp dụng path mới
+            // Restart services to apply new path
             RestartServices();
         }
         else if (!_settingsManager.HasScreenshotsPath)
         {
-            // Nếu chưa có path và user cancel, hiện cảnh báo
+            // Show warning if no path selected
             MessageBox.Show(
-                "Bạn cần chọn một thư mục Screenshots để ứng dụng hoạt động.\n\nClick chuột phải vào icon và chọn 'Chọn thư mục Screenshots...'",
+                "You need to select a Screenshots folder for the app to work.\n\nRight-click the icon and select 'Select Screenshots folder...'",
                 "Auto Delete Screenshot",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning
@@ -308,7 +308,7 @@ public class TrayApplicationContext : ApplicationContext
     }
 
     /// <summary>
-    /// Khởi động lại các services sau khi đổi folder
+    /// Restart services after folder change
     /// </summary>
     private void RestartServices()
     {
@@ -316,19 +316,17 @@ public class TrayApplicationContext : ApplicationContext
         _screenshotWatcher?.Dispose();
         _fileCleanupService?.Dispose();
         
-        // Tạo services mới (sẽ đọc path mới từ PathHelper)
-        // Note: Cần refactor để có thể tạo lại services
-        // Tạm thời hiện thông báo yêu cầu restart app
+        // Show restart required message
         MessageBox.Show(
-            "Vui lòng khởi động lại ứng dụng để áp dụng thư mục mới.",
-            "Cần khởi động lại",
+            "Please restart the application to apply the new folder.",
+            "Restart Required",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information
         );
     }
 
     /// <summary>
-    /// Cập nhật checkmark cho menu items
+    /// Update checkmarks for menu items
     /// </summary>
     private void UpdateMenuCheckmarks()
     {
@@ -340,24 +338,24 @@ public class TrayApplicationContext : ApplicationContext
     }
 
     /// <summary>
-    /// Cập nhật tooltip của tray icon
+    /// Update tray icon tooltip
     /// </summary>
     private void UpdateTooltip()
     {
         string timeText = _deleteAfterMinutes switch
         {
-            0 => "Không xóa tự động",
-            15 => "15 phút",
-            30 => "30 phút",
-            60 => "1 giờ",
-            1440 => "24 giờ",
-            _ => $"{_deleteAfterMinutes} phút"
+            0 => "No auto-delete",
+            15 => "15 min",
+            30 => "30 min",
+            60 => "1 hour",
+            1440 => "24 hours",
+            _ => $"{_deleteAfterMinutes} min"
         };
         _trayIcon.Text = $"Auto Delete Screenshot - {timeText}";
     }
 
     /// <summary>
-    /// Xử lý khi nhấn nút Thoát
+    /// Handle Exit button click
     /// </summary>
     private void OnExit(object? sender, EventArgs e)
     {
