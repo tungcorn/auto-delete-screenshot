@@ -32,6 +32,15 @@ public class TrayApplicationContext : ApplicationContext
         _deleteAfterMinutes = _settingsManager.DeleteAfterMinutes;
         _showToast = _settingsManager.ShowToast;
         
+        // Khởi tạo PathHelper với settings
+        PathHelper.Initialize(_settingsManager);
+        
+        // Kiểm tra xem đã có folder chưa, nếu chưa thì yêu cầu chọn
+        if (!_settingsManager.HasScreenshotsPath)
+        {
+            PromptForScreenshotsFolder();
+        }
+        
         // Tạo context menu
         _contextMenu = new ContextMenuStrip();
         
@@ -65,6 +74,12 @@ public class TrayApplicationContext : ApplicationContext
             Checked = _showToast
         };
         _contextMenu.Items.Add(_menuShowToast);
+        
+        _contextMenu.Items.Add(new ToolStripSeparator());
+        
+        // Chọn folder Screenshots
+        var folderItem = new ToolStripMenuItem("📂 Chọn thư mục Screenshots...", null, OnSelectFolder);
+        _contextMenu.Items.Add(folderItem);
         
         _contextMenu.Items.Add(new ToolStripSeparator());
         
@@ -193,6 +208,67 @@ public class TrayApplicationContext : ApplicationContext
         _showToast = _menuShowToast.Checked;
         // Lưu setting
         _settingsManager.ShowToast = _showToast;
+    }
+
+    /// <summary>
+    /// Xử lý khi click menu chọn folder
+    /// </summary>
+    private void OnSelectFolder(object? sender, EventArgs e)
+    {
+        PromptForScreenshotsFolder();
+    }
+
+    /// <summary>
+    /// Hiện dialog chọn folder Screenshots
+    /// </summary>
+    private void PromptForScreenshotsFolder()
+    {
+        string? selectedPath = PathHelper.PromptForFolder();
+        
+        if (!string.IsNullOrEmpty(selectedPath))
+        {
+            PathHelper.SetScreenshotsPath(selectedPath);
+            
+            _trayIcon.ShowBalloonTip(
+                3000,
+                "📂 Đã chọn thư mục",
+                $"Đang theo dõi: {selectedPath}",
+                ToolTipIcon.Info
+            );
+            
+            // Restart các services để áp dụng path mới
+            RestartServices();
+        }
+        else if (!_settingsManager.HasScreenshotsPath)
+        {
+            // Nếu chưa có path và user cancel, hiện cảnh báo
+            MessageBox.Show(
+                "Bạn cần chọn một thư mục Screenshots để ứng dụng hoạt động.\n\nClick chuột phải vào icon và chọn 'Chọn thư mục Screenshots...'",
+                "Auto Delete Screenshot",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            );
+        }
+    }
+
+    /// <summary>
+    /// Khởi động lại các services sau khi đổi folder
+    /// </summary>
+    private void RestartServices()
+    {
+        // Dispose old services
+        _screenshotWatcher?.Dispose();
+        _fileCleanupService?.Dispose();
+        
+        // Tạo services mới (sẽ đọc path mới từ PathHelper)
+        // Note: Cần refactor để có thể tạo lại services
+        // Tạm thời hiện thông báo yêu cầu restart app
+        MessageBox.Show(
+            "Vui lòng khởi động lại ứng dụng để áp dụng thư mục mới.",
+            "Cần khởi động lại",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information
+        );
     }
 
     /// <summary>

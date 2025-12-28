@@ -17,6 +17,7 @@ public class SettingsManager
     {
         public int DeleteAfterMinutes { get; set; } = 30;
         public bool ShowToast { get; set; } = false;
+        public string? ScreenshotsPath { get; set; } = null;
     }
 
     public SettingsManager()
@@ -99,4 +100,22 @@ public class SettingsManager
             Save();
         }
     }
+
+    /// <summary>
+    /// Đường dẫn thư mục Screenshots tùy chỉnh
+    /// </summary>
+    public string? ScreenshotsPath
+    {
+        get => _settings.ScreenshotsPath;
+        set
+        {
+            _settings.ScreenshotsPath = value;
+            Save();
+        }
+    }
+
+    /// <summary>
+    /// Kiểm tra xem đã có path được cấu hình chưa
+    /// </summary>
+    public bool HasScreenshotsPath => !string.IsNullOrEmpty(_settings.ScreenshotsPath) && Directory.Exists(_settings.ScreenshotsPath);
 }
