@@ -108,4 +108,8 @@ Output: `bin/Release/net8.0-windows/win-x64/publish/AutoDeleteScreenshot.exe`
 
 ## Author
 
-**TungCorn** - [GitHub](https://github.com/TungCorn)
+**TungCorn**
+
+- [GitHub](https://github.com/TungCorn)
+- **Email:** `tungcorn05@gmail.com`
+- **Telegram:** [@corn05](https://t.me/corn05)
