@@ -121,3 +121,15 @@ Output: `bin/Release/net8.0-windows/win-x64/publish/AutoDeleteScreenshot.exe`
 
   <p>💌 <b>tungcorn05@gmail.com</b></p>
 </div>
+
+<br/>
+
+<div align="center">
+  <hr/>
+  
+  <h3>🌟 Show Your Support</h3>
+  
+  <p>If you find this project useful, please consider giving it a <b>Star</b> ⭐ and <b>Share</b> it with your friends!</p>
+  
+  <p>Your support means a lot and helps the project grow! 🚀</p>
+</div>
