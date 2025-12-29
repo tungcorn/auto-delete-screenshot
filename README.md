@@ -110,14 +110,12 @@ Output: `bin/Release/net8.0-windows/win-x64/publish/AutoDeleteScreenshot.exe`
 
 <div align="center">
   <h3>TungCorn</h3>
-  <br/>
   
-  <a href="https://github.com/TungCorn">
-    <img src="https://img.shields.io/badge/GitHub-TungCorn-181717?style=for-the-badge&logo=github" alt="GitHub"/>
-  </a>
-  <a href="https://t.me/corn05">
-    <img src="https://img.shields.io/badge/Telegram-@corn05-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"/>
-  </a>
+  <p>
+    <a href="https://github.com/TungCorn">GitHub</a>
+    &nbsp; • &nbsp;
+    <a href="https://t.me/corn05">Telegram</a>
+  </p>
 
   <p>💌 <b>tungcorn05@gmail.com</b></p>
 </div>
