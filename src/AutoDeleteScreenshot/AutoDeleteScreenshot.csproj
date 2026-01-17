@@ -15,7 +15,7 @@
     <!-- App info -->
     <AssemblyName>AutoDeleteScreenshot</AssemblyName>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
-    <Version>1.0.5</Version>
+    <Version>1.0.7</Version>
     <Authors>tungcorn</Authors>
     <Description>Auto delete screenshots after a specified time</Description>
   </PropertyGroup>
